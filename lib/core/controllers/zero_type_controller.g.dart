@@ -42,7 +42,7 @@ final class ZeroTypeControllerProvider
 }
 
 String _$zeroTypeControllerHash() =>
-    r'e7fdb5b9d22d497dd77eda8c6008598f118ddb5d';
+    r'bbc8298cecb8bc86652717576076330b34dd6083';
 
 abstract class _$ZeroTypeController extends $Notifier<ZeroTypeState> {
   ZeroTypeState build();

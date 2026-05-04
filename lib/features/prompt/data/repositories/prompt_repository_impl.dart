@@ -11,58 +11,112 @@ class PromptRepositoryImpl implements PromptRepository {
 
   final SharedPreferences _prefs;
 
-  Future<File> _getCustomPromptFile() async {
+  Future<File> _getCustomFile(String fileName) async {
     final dir = await getApplicationSupportDirectory();
-    return File('${dir.path}/SpeechToText_Custom.prompt');
+    return File('${dir.path}/$fileName');
   }
 
-  @override
-  Future<String> getDefaultSpeechPrompt() async {
+  Future<String> _loadDefaultFromAsset(String assetPath, String fallback) async {
     try {
-      final content = await rootBundle.loadString('prompts/SpeechToText.prompt');
+      final content = await rootBundle.loadString(assetPath);
       return content.trim();
     } catch (e) {
-      print('[PromptRepo] ERROR loading SpeechToText.prompt from assets: $e');
+      print('[PromptRepo] ERROR loading $assetPath: $e');
+      return fallback;
     }
-    return '請將語音精確轉換成繁體中文，並依語意加上適當的標點符號。';
   }
 
-  @override
-  Future<String> getSpeechPrompt() async {
+  Future<String> _readCustomOrDefault(
+      String customFileName, Future<String> Function() defaultLoader) async {
     try {
-      final file = await _getCustomPromptFile();
+      final file = await _getCustomFile(customFileName);
       if (await file.exists()) {
         final content = (await file.readAsString()).trim();
         if (content.isNotEmpty) return content;
       }
     } catch (e) {
-      print('[PromptRepo] Error reading custom prompt: $e');
+      print('[PromptRepo] Error reading $customFileName: $e');
     }
-    return await getDefaultSpeechPrompt();
+    return await defaultLoader();
   }
 
-  @override
-  Future<String> saveSpeechPrompt(String prompt) async {
+  Future<String> _saveCustom(
+      String customFileName, String prefsKey, String prompt) async {
     final cleaned = prompt.trim();
     try {
-      final file = await _getCustomPromptFile();
+      final file = await _getCustomFile(customFileName);
       await file.writeAsString(cleaned, flush: true);
     } catch (e) {
-      print('[PromptRepo] Error saving custom prompt: $e');
+      print('[PromptRepo] Error saving $customFileName: $e');
     }
-    await _prefs.setString(AppConstants.speechPromptKey, cleaned);
+    await _prefs.setString(prefsKey, cleaned);
     return cleaned;
   }
 
-  @override
-  Future<String> resetSpeechPrompt() async {
+  Future<String> _resetCustom(String customFileName, String prefsKey,
+      Future<String> Function() defaultLoader) async {
     try {
-      final file = await _getCustomPromptFile();
+      final file = await _getCustomFile(customFileName);
       if (await file.exists()) await file.delete();
     } catch (e) {
-      print('[PromptRepo] Error deleting custom prompt: $e');
+      print('[PromptRepo] Error deleting $customFileName: $e');
     }
-    await _prefs.remove(AppConstants.speechPromptKey);
-    return await getDefaultSpeechPrompt();
+    await _prefs.remove(prefsKey);
+    return await defaultLoader();
   }
+
+  // ── Speech ────────────────────────────────────────────────────────────────
+
+  @override
+  Future<String> getDefaultSpeechPrompt() => _loadDefaultFromAsset(
+        'prompts/SpeechToText.prompt',
+        '請將語音精確轉換成繁體中文，並依語意加上適當的標點符號。',
+      );
+
+  @override
+  Future<String> getSpeechPrompt() =>
+      _readCustomOrDefault('SpeechToText_Custom.prompt', getDefaultSpeechPrompt);
+
+  @override
+  Future<String> saveSpeechPrompt(String prompt) => _saveCustom(
+        'SpeechToText_Custom.prompt',
+        AppConstants.speechPromptKey,
+        prompt,
+      );
+
+  @override
+  Future<String> resetSpeechPrompt() => _resetCustom(
+        'SpeechToText_Custom.prompt',
+        AppConstants.speechPromptKey,
+        getDefaultSpeechPrompt,
+      );
+
+  // ── Refinement ────────────────────────────────────────────────────────────
+
+  @override
+  Future<String> getDefaultRefinementPrompt() => _loadDefaultFromAsset(
+        'prompts/TextRefinement.prompt',
+        '優化以下語音轉錄文字：移除「嗯/啊/那個」等填充詞、修正口誤、加上適當標點，'
+            '保留原意，僅輸出優化後的純文字。',
+      );
+
+  @override
+  Future<String> getRefinementPrompt() => _readCustomOrDefault(
+        'TextRefinement_Custom.prompt',
+        getDefaultRefinementPrompt,
+      );
+
+  @override
+  Future<String> saveRefinementPrompt(String prompt) => _saveCustom(
+        'TextRefinement_Custom.prompt',
+        AppConstants.refinementPromptKey,
+        prompt,
+      );
+
+  @override
+  Future<String> resetRefinementPrompt() => _resetCustom(
+        'TextRefinement_Custom.prompt',
+        AppConstants.refinementPromptKey,
+        getDefaultRefinementPrompt,
+      );
 }

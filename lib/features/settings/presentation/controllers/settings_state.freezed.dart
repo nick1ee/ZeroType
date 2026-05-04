@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SettingsState {
 
- bool get launchAtStartup; HotKey get hotkey; bool get isAccessibilityAuthorized; bool get isMicrophoneAuthorized; bool get isRecordingHotkey; bool get soundEnabled; String get startSound; String get stopSound; int get historyRetentionDays; int get maxRecordingMinutes;
+ bool get launchAtStartup; HotKey get hotkey; bool get isAccessibilityAuthorized; bool get isMicrophoneAuthorized; bool get isRecordingHotkey; bool get soundEnabled; String get startSound; String get stopSound; int get historyRetentionDays; int get maxRecordingMinutes; bool get refinementEnabled;
 /// Create a copy of SettingsState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $SettingsStateCopyWith<SettingsState> get copyWith => _$SettingsStateCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SettingsState&&(identical(other.launchAtStartup, launchAtStartup) || other.launchAtStartup == launchAtStartup)&&(identical(other.hotkey, hotkey) || other.hotkey == hotkey)&&(identical(other.isAccessibilityAuthorized, isAccessibilityAuthorized) || other.isAccessibilityAuthorized == isAccessibilityAuthorized)&&(identical(other.isMicrophoneAuthorized, isMicrophoneAuthorized) || other.isMicrophoneAuthorized == isMicrophoneAuthorized)&&(identical(other.isRecordingHotkey, isRecordingHotkey) || other.isRecordingHotkey == isRecordingHotkey)&&(identical(other.soundEnabled, soundEnabled) || other.soundEnabled == soundEnabled)&&(identical(other.startSound, startSound) || other.startSound == startSound)&&(identical(other.stopSound, stopSound) || other.stopSound == stopSound)&&(identical(other.historyRetentionDays, historyRetentionDays) || other.historyRetentionDays == historyRetentionDays)&&(identical(other.maxRecordingMinutes, maxRecordingMinutes) || other.maxRecordingMinutes == maxRecordingMinutes));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SettingsState&&(identical(other.launchAtStartup, launchAtStartup) || other.launchAtStartup == launchAtStartup)&&(identical(other.hotkey, hotkey) || other.hotkey == hotkey)&&(identical(other.isAccessibilityAuthorized, isAccessibilityAuthorized) || other.isAccessibilityAuthorized == isAccessibilityAuthorized)&&(identical(other.isMicrophoneAuthorized, isMicrophoneAuthorized) || other.isMicrophoneAuthorized == isMicrophoneAuthorized)&&(identical(other.isRecordingHotkey, isRecordingHotkey) || other.isRecordingHotkey == isRecordingHotkey)&&(identical(other.soundEnabled, soundEnabled) || other.soundEnabled == soundEnabled)&&(identical(other.startSound, startSound) || other.startSound == startSound)&&(identical(other.stopSound, stopSound) || other.stopSound == stopSound)&&(identical(other.historyRetentionDays, historyRetentionDays) || other.historyRetentionDays == historyRetentionDays)&&(identical(other.maxRecordingMinutes, maxRecordingMinutes) || other.maxRecordingMinutes == maxRecordingMinutes)&&(identical(other.refinementEnabled, refinementEnabled) || other.refinementEnabled == refinementEnabled));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,launchAtStartup,hotkey,isAccessibilityAuthorized,isMicrophoneAuthorized,isRecordingHotkey,soundEnabled,startSound,stopSound,historyRetentionDays,maxRecordingMinutes);
+int get hashCode => Object.hash(runtimeType,launchAtStartup,hotkey,isAccessibilityAuthorized,isMicrophoneAuthorized,isRecordingHotkey,soundEnabled,startSound,stopSound,historyRetentionDays,maxRecordingMinutes,refinementEnabled);
 
 @override
 String toString() {
-  return 'SettingsState(launchAtStartup: $launchAtStartup, hotkey: $hotkey, isAccessibilityAuthorized: $isAccessibilityAuthorized, isMicrophoneAuthorized: $isMicrophoneAuthorized, isRecordingHotkey: $isRecordingHotkey, soundEnabled: $soundEnabled, startSound: $startSound, stopSound: $stopSound, historyRetentionDays: $historyRetentionDays, maxRecordingMinutes: $maxRecordingMinutes)';
+  return 'SettingsState(launchAtStartup: $launchAtStartup, hotkey: $hotkey, isAccessibilityAuthorized: $isAccessibilityAuthorized, isMicrophoneAuthorized: $isMicrophoneAuthorized, isRecordingHotkey: $isRecordingHotkey, soundEnabled: $soundEnabled, startSound: $startSound, stopSound: $stopSound, historyRetentionDays: $historyRetentionDays, maxRecordingMinutes: $maxRecordingMinutes, refinementEnabled: $refinementEnabled)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $SettingsStateCopyWith<$Res>  {
   factory $SettingsStateCopyWith(SettingsState value, $Res Function(SettingsState) _then) = _$SettingsStateCopyWithImpl;
 @useResult
 $Res call({
- bool launchAtStartup, HotKey hotkey, bool isAccessibilityAuthorized, bool isMicrophoneAuthorized, bool isRecordingHotkey, bool soundEnabled, String startSound, String stopSound, int historyRetentionDays, int maxRecordingMinutes
+ bool launchAtStartup, HotKey hotkey, bool isAccessibilityAuthorized, bool isMicrophoneAuthorized, bool isRecordingHotkey, bool soundEnabled, String startSound, String stopSound, int historyRetentionDays, int maxRecordingMinutes, bool refinementEnabled
 });
 
 
@@ -62,7 +62,7 @@ class _$SettingsStateCopyWithImpl<$Res>
 
 /// Create a copy of SettingsState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? launchAtStartup = null,Object? hotkey = null,Object? isAccessibilityAuthorized = null,Object? isMicrophoneAuthorized = null,Object? isRecordingHotkey = null,Object? soundEnabled = null,Object? startSound = null,Object? stopSound = null,Object? historyRetentionDays = null,Object? maxRecordingMinutes = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? launchAtStartup = null,Object? hotkey = null,Object? isAccessibilityAuthorized = null,Object? isMicrophoneAuthorized = null,Object? isRecordingHotkey = null,Object? soundEnabled = null,Object? startSound = null,Object? stopSound = null,Object? historyRetentionDays = null,Object? maxRecordingMinutes = null,Object? refinementEnabled = null,}) {
   return _then(_self.copyWith(
 launchAtStartup: null == launchAtStartup ? _self.launchAtStartup : launchAtStartup // ignore: cast_nullable_to_non_nullable
 as bool,hotkey: null == hotkey ? _self.hotkey : hotkey // ignore: cast_nullable_to_non_nullable
@@ -74,7 +74,8 @@ as bool,startSound: null == startSound ? _self.startSound : startSound // ignore
 as String,stopSound: null == stopSound ? _self.stopSound : stopSound // ignore: cast_nullable_to_non_nullable
 as String,historyRetentionDays: null == historyRetentionDays ? _self.historyRetentionDays : historyRetentionDays // ignore: cast_nullable_to_non_nullable
 as int,maxRecordingMinutes: null == maxRecordingMinutes ? _self.maxRecordingMinutes : maxRecordingMinutes // ignore: cast_nullable_to_non_nullable
-as int,
+as int,refinementEnabled: null == refinementEnabled ? _self.refinementEnabled : refinementEnabled // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
@@ -159,10 +160,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool launchAtStartup,  HotKey hotkey,  bool isAccessibilityAuthorized,  bool isMicrophoneAuthorized,  bool isRecordingHotkey,  bool soundEnabled,  String startSound,  String stopSound,  int historyRetentionDays,  int maxRecordingMinutes)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool launchAtStartup,  HotKey hotkey,  bool isAccessibilityAuthorized,  bool isMicrophoneAuthorized,  bool isRecordingHotkey,  bool soundEnabled,  String startSound,  String stopSound,  int historyRetentionDays,  int maxRecordingMinutes,  bool refinementEnabled)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SettingsState() when $default != null:
-return $default(_that.launchAtStartup,_that.hotkey,_that.isAccessibilityAuthorized,_that.isMicrophoneAuthorized,_that.isRecordingHotkey,_that.soundEnabled,_that.startSound,_that.stopSound,_that.historyRetentionDays,_that.maxRecordingMinutes);case _:
+return $default(_that.launchAtStartup,_that.hotkey,_that.isAccessibilityAuthorized,_that.isMicrophoneAuthorized,_that.isRecordingHotkey,_that.soundEnabled,_that.startSound,_that.stopSound,_that.historyRetentionDays,_that.maxRecordingMinutes,_that.refinementEnabled);case _:
   return orElse();
 
 }
@@ -180,10 +181,10 @@ return $default(_that.launchAtStartup,_that.hotkey,_that.isAccessibilityAuthoriz
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool launchAtStartup,  HotKey hotkey,  bool isAccessibilityAuthorized,  bool isMicrophoneAuthorized,  bool isRecordingHotkey,  bool soundEnabled,  String startSound,  String stopSound,  int historyRetentionDays,  int maxRecordingMinutes)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool launchAtStartup,  HotKey hotkey,  bool isAccessibilityAuthorized,  bool isMicrophoneAuthorized,  bool isRecordingHotkey,  bool soundEnabled,  String startSound,  String stopSound,  int historyRetentionDays,  int maxRecordingMinutes,  bool refinementEnabled)  $default,) {final _that = this;
 switch (_that) {
 case _SettingsState():
-return $default(_that.launchAtStartup,_that.hotkey,_that.isAccessibilityAuthorized,_that.isMicrophoneAuthorized,_that.isRecordingHotkey,_that.soundEnabled,_that.startSound,_that.stopSound,_that.historyRetentionDays,_that.maxRecordingMinutes);case _:
+return $default(_that.launchAtStartup,_that.hotkey,_that.isAccessibilityAuthorized,_that.isMicrophoneAuthorized,_that.isRecordingHotkey,_that.soundEnabled,_that.startSound,_that.stopSound,_that.historyRetentionDays,_that.maxRecordingMinutes,_that.refinementEnabled);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -200,10 +201,10 @@ return $default(_that.launchAtStartup,_that.hotkey,_that.isAccessibilityAuthoriz
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool launchAtStartup,  HotKey hotkey,  bool isAccessibilityAuthorized,  bool isMicrophoneAuthorized,  bool isRecordingHotkey,  bool soundEnabled,  String startSound,  String stopSound,  int historyRetentionDays,  int maxRecordingMinutes)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool launchAtStartup,  HotKey hotkey,  bool isAccessibilityAuthorized,  bool isMicrophoneAuthorized,  bool isRecordingHotkey,  bool soundEnabled,  String startSound,  String stopSound,  int historyRetentionDays,  int maxRecordingMinutes,  bool refinementEnabled)?  $default,) {final _that = this;
 switch (_that) {
 case _SettingsState() when $default != null:
-return $default(_that.launchAtStartup,_that.hotkey,_that.isAccessibilityAuthorized,_that.isMicrophoneAuthorized,_that.isRecordingHotkey,_that.soundEnabled,_that.startSound,_that.stopSound,_that.historyRetentionDays,_that.maxRecordingMinutes);case _:
+return $default(_that.launchAtStartup,_that.hotkey,_that.isAccessibilityAuthorized,_that.isMicrophoneAuthorized,_that.isRecordingHotkey,_that.soundEnabled,_that.startSound,_that.stopSound,_that.historyRetentionDays,_that.maxRecordingMinutes,_that.refinementEnabled);case _:
   return null;
 
 }
@@ -215,7 +216,7 @@ return $default(_that.launchAtStartup,_that.hotkey,_that.isAccessibilityAuthoriz
 
 
 class _SettingsState implements SettingsState {
-  const _SettingsState({this.launchAtStartup = false, required this.hotkey, this.isAccessibilityAuthorized = false, this.isMicrophoneAuthorized = false, this.isRecordingHotkey = false, this.soundEnabled = true, this.startSound = kDefaultStartSound, this.stopSound = kDefaultStopSound, this.historyRetentionDays = 7, this.maxRecordingMinutes = 1});
+  const _SettingsState({this.launchAtStartup = false, required this.hotkey, this.isAccessibilityAuthorized = false, this.isMicrophoneAuthorized = false, this.isRecordingHotkey = false, this.soundEnabled = true, this.startSound = kDefaultStartSound, this.stopSound = kDefaultStopSound, this.historyRetentionDays = 7, this.maxRecordingMinutes = 1, this.refinementEnabled = false});
   
 
 @override@JsonKey() final  bool launchAtStartup;
@@ -228,6 +229,7 @@ class _SettingsState implements SettingsState {
 @override@JsonKey() final  String stopSound;
 @override@JsonKey() final  int historyRetentionDays;
 @override@JsonKey() final  int maxRecordingMinutes;
+@override@JsonKey() final  bool refinementEnabled;
 
 /// Create a copy of SettingsState
 /// with the given fields replaced by the non-null parameter values.
@@ -239,16 +241,16 @@ _$SettingsStateCopyWith<_SettingsState> get copyWith => __$SettingsStateCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SettingsState&&(identical(other.launchAtStartup, launchAtStartup) || other.launchAtStartup == launchAtStartup)&&(identical(other.hotkey, hotkey) || other.hotkey == hotkey)&&(identical(other.isAccessibilityAuthorized, isAccessibilityAuthorized) || other.isAccessibilityAuthorized == isAccessibilityAuthorized)&&(identical(other.isMicrophoneAuthorized, isMicrophoneAuthorized) || other.isMicrophoneAuthorized == isMicrophoneAuthorized)&&(identical(other.isRecordingHotkey, isRecordingHotkey) || other.isRecordingHotkey == isRecordingHotkey)&&(identical(other.soundEnabled, soundEnabled) || other.soundEnabled == soundEnabled)&&(identical(other.startSound, startSound) || other.startSound == startSound)&&(identical(other.stopSound, stopSound) || other.stopSound == stopSound)&&(identical(other.historyRetentionDays, historyRetentionDays) || other.historyRetentionDays == historyRetentionDays)&&(identical(other.maxRecordingMinutes, maxRecordingMinutes) || other.maxRecordingMinutes == maxRecordingMinutes));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SettingsState&&(identical(other.launchAtStartup, launchAtStartup) || other.launchAtStartup == launchAtStartup)&&(identical(other.hotkey, hotkey) || other.hotkey == hotkey)&&(identical(other.isAccessibilityAuthorized, isAccessibilityAuthorized) || other.isAccessibilityAuthorized == isAccessibilityAuthorized)&&(identical(other.isMicrophoneAuthorized, isMicrophoneAuthorized) || other.isMicrophoneAuthorized == isMicrophoneAuthorized)&&(identical(other.isRecordingHotkey, isRecordingHotkey) || other.isRecordingHotkey == isRecordingHotkey)&&(identical(other.soundEnabled, soundEnabled) || other.soundEnabled == soundEnabled)&&(identical(other.startSound, startSound) || other.startSound == startSound)&&(identical(other.stopSound, stopSound) || other.stopSound == stopSound)&&(identical(other.historyRetentionDays, historyRetentionDays) || other.historyRetentionDays == historyRetentionDays)&&(identical(other.maxRecordingMinutes, maxRecordingMinutes) || other.maxRecordingMinutes == maxRecordingMinutes)&&(identical(other.refinementEnabled, refinementEnabled) || other.refinementEnabled == refinementEnabled));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,launchAtStartup,hotkey,isAccessibilityAuthorized,isMicrophoneAuthorized,isRecordingHotkey,soundEnabled,startSound,stopSound,historyRetentionDays,maxRecordingMinutes);
+int get hashCode => Object.hash(runtimeType,launchAtStartup,hotkey,isAccessibilityAuthorized,isMicrophoneAuthorized,isRecordingHotkey,soundEnabled,startSound,stopSound,historyRetentionDays,maxRecordingMinutes,refinementEnabled);
 
 @override
 String toString() {
-  return 'SettingsState(launchAtStartup: $launchAtStartup, hotkey: $hotkey, isAccessibilityAuthorized: $isAccessibilityAuthorized, isMicrophoneAuthorized: $isMicrophoneAuthorized, isRecordingHotkey: $isRecordingHotkey, soundEnabled: $soundEnabled, startSound: $startSound, stopSound: $stopSound, historyRetentionDays: $historyRetentionDays, maxRecordingMinutes: $maxRecordingMinutes)';
+  return 'SettingsState(launchAtStartup: $launchAtStartup, hotkey: $hotkey, isAccessibilityAuthorized: $isAccessibilityAuthorized, isMicrophoneAuthorized: $isMicrophoneAuthorized, isRecordingHotkey: $isRecordingHotkey, soundEnabled: $soundEnabled, startSound: $startSound, stopSound: $stopSound, historyRetentionDays: $historyRetentionDays, maxRecordingMinutes: $maxRecordingMinutes, refinementEnabled: $refinementEnabled)';
 }
 
 
@@ -259,7 +261,7 @@ abstract mixin class _$SettingsStateCopyWith<$Res> implements $SettingsStateCopy
   factory _$SettingsStateCopyWith(_SettingsState value, $Res Function(_SettingsState) _then) = __$SettingsStateCopyWithImpl;
 @override @useResult
 $Res call({
- bool launchAtStartup, HotKey hotkey, bool isAccessibilityAuthorized, bool isMicrophoneAuthorized, bool isRecordingHotkey, bool soundEnabled, String startSound, String stopSound, int historyRetentionDays, int maxRecordingMinutes
+ bool launchAtStartup, HotKey hotkey, bool isAccessibilityAuthorized, bool isMicrophoneAuthorized, bool isRecordingHotkey, bool soundEnabled, String startSound, String stopSound, int historyRetentionDays, int maxRecordingMinutes, bool refinementEnabled
 });
 
 
@@ -276,7 +278,7 @@ class __$SettingsStateCopyWithImpl<$Res>
 
 /// Create a copy of SettingsState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? launchAtStartup = null,Object? hotkey = null,Object? isAccessibilityAuthorized = null,Object? isMicrophoneAuthorized = null,Object? isRecordingHotkey = null,Object? soundEnabled = null,Object? startSound = null,Object? stopSound = null,Object? historyRetentionDays = null,Object? maxRecordingMinutes = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? launchAtStartup = null,Object? hotkey = null,Object? isAccessibilityAuthorized = null,Object? isMicrophoneAuthorized = null,Object? isRecordingHotkey = null,Object? soundEnabled = null,Object? startSound = null,Object? stopSound = null,Object? historyRetentionDays = null,Object? maxRecordingMinutes = null,Object? refinementEnabled = null,}) {
   return _then(_SettingsState(
 launchAtStartup: null == launchAtStartup ? _self.launchAtStartup : launchAtStartup // ignore: cast_nullable_to_non_nullable
 as bool,hotkey: null == hotkey ? _self.hotkey : hotkey // ignore: cast_nullable_to_non_nullable
@@ -288,7 +290,8 @@ as bool,startSound: null == startSound ? _self.startSound : startSound // ignore
 as String,stopSound: null == stopSound ? _self.stopSound : stopSound // ignore: cast_nullable_to_non_nullable
 as String,historyRetentionDays: null == historyRetentionDays ? _self.historyRetentionDays : historyRetentionDays // ignore: cast_nullable_to_non_nullable
 as int,maxRecordingMinutes: null == maxRecordingMinutes ? _self.maxRecordingMinutes : maxRecordingMinutes // ignore: cast_nullable_to_non_nullable
-as int,
+as int,refinementEnabled: null == refinementEnabled ? _self.refinementEnabled : refinementEnabled // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

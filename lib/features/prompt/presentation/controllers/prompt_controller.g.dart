@@ -99,3 +99,49 @@ abstract class _$SpeechPromptController extends $AsyncNotifier<String> {
     element.handleCreate(ref, build);
   }
 }
+
+@ProviderFor(RefinementPromptController)
+final refinementPromptControllerProvider =
+    RefinementPromptControllerProvider._();
+
+final class RefinementPromptControllerProvider
+    extends $AsyncNotifierProvider<RefinementPromptController, String> {
+  RefinementPromptControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'refinementPromptControllerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$refinementPromptControllerHash();
+
+  @$internal
+  @override
+  RefinementPromptController create() => RefinementPromptController();
+}
+
+String _$refinementPromptControllerHash() =>
+    r'adee0c32bf7696254a613619da6890b3e173fb42';
+
+abstract class _$RefinementPromptController extends $AsyncNotifier<String> {
+  FutureOr<String> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<AsyncValue<String>, String>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<String>, String>,
+              AsyncValue<String>,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}

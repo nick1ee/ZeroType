@@ -37,6 +37,8 @@ class SettingsController extends _$SettingsController {
       final stopSound = prefs.getString(AppConstants.stopSoundKey) ?? kDefaultStopSound;
       final historyRetentionDays = prefs.getInt(AppConstants.historyRetentionDaysKey) ?? 7;
       final maxRecordingMinutes = prefs.getInt(AppConstants.maxRecordingMinutesKey) ?? 1;
+      final refinementEnabled =
+          prefs.getBool(AppConstants.isRefinementEnabledKey) ?? false;
 
       print('[SettingsController] Build complete.');
       return SettingsState(
@@ -49,6 +51,7 @@ class SettingsController extends _$SettingsController {
         stopSound: stopSound,
         historyRetentionDays: historyRetentionDays,
         maxRecordingMinutes: maxRecordingMinutes,
+        refinementEnabled: refinementEnabled,
       );
     } catch (e, st) {
       print('[SettingsController] Error building settings state: $e\n$st');
@@ -185,6 +188,15 @@ class SettingsController extends _$SettingsController {
     final currentState = state.value;
     if (currentState != null) {
       state = AsyncData(currentState.copyWith(maxRecordingMinutes: minutes));
+    }
+  }
+
+  Future<void> toggleRefinementEnabled(bool value) async {
+    await getIt<SharedPreferences>()
+        .setBool(AppConstants.isRefinementEnabledKey, value);
+    final currentState = state.value;
+    if (currentState != null) {
+      state = AsyncData(currentState.copyWith(refinementEnabled: value));
     }
   }
 

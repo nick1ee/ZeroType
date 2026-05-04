@@ -33,14 +33,29 @@ class RecordingService {
       dir.createSync(recursive: true);
     }
     final timestamp = DateTime.now().millisecondsSinceEpoch;
-    _currentFilePath = '${dir.path}/zerotype_$timestamp.m4a';
+    // Encoder choice differs by platform:
+    // - Windows: WAV (PCM16). AAC was tempting (smaller files) but Windows
+    //   Media Foundation's AAC encoder only accepts 44.1/48 kHz, AND OpenAI's
+    //   chat-completions `input_audio` only accepts wav/mp3. WAV satisfies
+    //   both whisper-style transcription endpoints AND multimodal chat
+    //   endpoints (Gemini, GPT-4o, Claude) on every backend we've tested.
+    //   At 16 kHz mono, file size is ~1.9 MB/min — fine for local proxies
+    //   and direct cloud uploads alike.
+    // - macOS: AAC m4a as before. AVAssetWriter handles 16 kHz natively and
+    //   the existing pipeline has been validated end-to-end on it.
+    final isWin = Platform.isWindows;
+    final ext = isWin ? 'wav' : 'm4a';
+    _currentFilePath = '${dir.path}/zerotype_$timestamp.$ext';
+    final sampleRate = 16000;
+    final encoder = isWin ? AudioEncoder.wav : AudioEncoder.aacLc;
 
-    print('[RecordingService] starting at $_currentFilePath');
+    print(
+        '[RecordingService] starting at $_currentFilePath enc=${encoder.name} @ ${sampleRate}Hz');
     await _recorder.start(
-      const RecordConfig(
-        encoder: AudioEncoder.aacLc,
+      RecordConfig(
+        encoder: encoder,
         bitRate: 128000,
-        sampleRate: 16000,
+        sampleRate: sampleRate,
       ),
       path: _currentFilePath!,
     );

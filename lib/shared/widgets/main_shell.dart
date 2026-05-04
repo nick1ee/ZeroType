@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:window_manager/window_manager.dart';
 import 'package:zero_type/core/di/injection.dart';
 import 'package:zero_type/core/router/app_router.dart';
 import 'package:zero_type/features/history/presentation/controllers/history_controller.dart';
@@ -120,20 +121,7 @@ class _MainShellPageState extends ConsumerState<MainShellPage> {
         return Scaffold(
           body: Column(
             children: [
-              Container(
-                height: 44,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                color: Theme.of(context).colorScheme.surface,
-                child: Center(
-                  child: Text(
-                    'Zero Type',
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 0.5,
-                        ),
-                  ),
-                ),
-              ),
+              const _TitleBar(),
               const Divider(height: 1, thickness: 1),
               Expanded(
                 child: Row(
@@ -190,6 +178,109 @@ class _MainShellPageState extends ConsumerState<MainShellPage> {
           ),
         );
       },
+    );
+  }
+}
+
+class _TitleBar extends StatelessWidget {
+  const _TitleBar();
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    return Container(
+      height: 44,
+      color: cs.surface,
+      child: Row(
+        children: [
+          // Drag region — entire centre area is grabbable for moving the window.
+          // Buttons sit at the right end and intercept their own pointer events.
+          Expanded(
+            child: DragToMoveArea(
+              child: Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                  'Zero Type',
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 0.5,
+                      ),
+                ),
+              ),
+            ),
+          ),
+          _WindowControlButton(
+            icon: Icons.remove,
+            tooltip: '最小化',
+            onTap: () => windowManager.minimize(),
+          ),
+          _WindowControlButton(
+            icon: Icons.crop_square,
+            tooltip: '最大化／還原',
+            onTap: () async {
+              if (await windowManager.isMaximized()) {
+                await windowManager.unmaximize();
+              } else {
+                await windowManager.maximize();
+              }
+            },
+          ),
+          _WindowControlButton(
+            icon: Icons.close,
+            tooltip: '關閉',
+            isClose: true,
+            onTap: () => windowManager.close(),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _WindowControlButton extends StatefulWidget {
+  const _WindowControlButton({
+    required this.icon,
+    required this.tooltip,
+    required this.onTap,
+    this.isClose = false,
+  });
+
+  final IconData icon;
+  final String tooltip;
+  final VoidCallback onTap;
+  final bool isClose;
+
+  @override
+  State<_WindowControlButton> createState() => _WindowControlButtonState();
+}
+
+class _WindowControlButtonState extends State<_WindowControlButton> {
+  bool _hovering = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final hoverColor = widget.isClose
+        ? const Color(0xFFE81123)
+        : cs.onSurface.withValues(alpha: 0.08);
+    final iconColor = widget.isClose && _hovering ? Colors.white : cs.onSurface;
+    return Tooltip(
+      message: widget.tooltip,
+      child: MouseRegion(
+        onEnter: (_) => setState(() => _hovering = true),
+        onExit: (_) => setState(() => _hovering = false),
+        child: GestureDetector(
+          onTap: widget.onTap,
+          child: Container(
+            width: 46,
+            height: 44,
+            color: _hovering ? hoverColor : Colors.transparent,
+            alignment: Alignment.center,
+            child: Icon(widget.icon, size: 16, color: iconColor),
+          ),
+        ),
+      ),
     );
   }
 }

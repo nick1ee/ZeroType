@@ -17,5 +17,6 @@ abstract class SettingsState with _$SettingsState {
     @Default(kDefaultStopSound) String stopSound,
     @Default(7) int historyRetentionDays,
     @Default(1) int maxRecordingMinutes,
+    @Default(false) bool refinementEnabled,
   }) = _SettingsState;
 }

@@ -87,15 +87,21 @@ class _OverlayPill extends StatelessWidget {
         ZeroTypeStatus.idle => Colors.grey,
       };
 
-  String get _label => switch (state.status) {
-        ZeroTypeStatus.recording => '錄音中',
-        ZeroTypeStatus.cancelling => '取消中',
-        ZeroTypeStatus.saving => '擷取中',
-        ZeroTypeStatus.transcribing => '辨識中',
-        ZeroTypeStatus.done => '已完成',
-        ZeroTypeStatus.error => '錯誤',
-        ZeroTypeStatus.idle => '',
-      };
+  String get _label {
+    if (state.status == ZeroTypeStatus.error) {
+      final msg = state.errorMessage;
+      return (msg == null || msg.isEmpty) ? '錯誤' : '錯誤：$msg';
+    }
+    return switch (state.status) {
+          ZeroTypeStatus.recording => '錄音中',
+          ZeroTypeStatus.cancelling => '取消中',
+          ZeroTypeStatus.saving => '擷取中',
+          ZeroTypeStatus.transcribing => '辨識中',
+          ZeroTypeStatus.done => '已完成',
+          ZeroTypeStatus.error => '錯誤',
+          ZeroTypeStatus.idle => '',
+        };
+  }
 
   bool get _showWaveform =>
       state.status == ZeroTypeStatus.recording ||
@@ -128,13 +134,20 @@ class _OverlayPill extends StatelessWidget {
             _WaveformBars(amplitude: state.amplitude, color: dotColor),
             const SizedBox(width: 10),
           ],
-          Text(
-            _label,
-            style: TextStyle(
-              color: dotColor,
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 0.3,
+          Flexible(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 480),
+              child: Text(
+                _label,
+                style: TextStyle(
+                  color: dotColor,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 0.3,
+                ),
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ),
           if (state.status == ZeroTypeStatus.saving ||

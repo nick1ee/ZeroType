@@ -1,0 +1,41 @@
+關於安裝模式
+==========================================================
+
+ZeroType 支援兩種安裝模式，請依需求選擇下一頁的權限選項：
+
+[管理員模式]（建議）
+- 安裝到 C:\Program Files\ZeroType（系統範圍）
+- 自動將 ZeroType 加入 Windows 麥克風權限白名單
+- 自動設定 Windows 啟動時自動執行（如果你勾選該選項）
+- 第一次按 Alt+Space 就能直接錄音，不需手動到 Settings 開權限
+
+[一般使用者模式]
+- 安裝到 %LOCALAPPDATA%\Programs\ZeroType（僅目前使用者）
+- 不會自動寫入麥克風權限與開機啟動設定
+- 第一次錄音時，請至「設定 → 隱私權與安全性 → 麥克風」
+  手動允許 ZeroType 存取麥克風
+- 開機自動啟動可在 ZeroType 內的「設定」頁開啟
+
+如何選擇：
+- 點下一頁的「下一步」後，會出現 Windows 的權限詢問
+  （UAC，盾牌圖示）：
+  - 按「是」 → 安裝程式以管理員模式執行（自動設定）
+  - 按「否」 → 安裝程式以一般使用者模式執行（你自己設定）
+
+About installation modes
+==========================================================
+
+ZeroType supports two install modes — pick when prompted by Windows:
+
+[Administrator mode] (recommended)
+- Installs to C:\Program Files\ZeroType (system-wide)
+- Automatically allow-lists ZeroType for microphone access
+- Automatically registers Windows startup launch (if checked)
+- Alt+Space works on first try with no extra setup
+
+[Standard user mode]
+- Installs to %LOCALAPPDATA%\Programs\ZeroType (this user only)
+- Does NOT auto-configure microphone or startup launch
+- You'll need to manually approve microphone access in
+  Settings → Privacy → Microphone the first time
+- Launch-at-startup can be enabled inside ZeroType's Settings page

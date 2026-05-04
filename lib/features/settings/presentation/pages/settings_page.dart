@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,6 +9,35 @@ import 'package:zero_type/core/di/injection.dart';
 import 'package:zero_type/core/services/sound_service.dart';
 import 'package:zero_type/core/theme/theme_controller.dart';
 import '../controllers/settings_controller.dart';
+
+String _modifierLabel(HotKeyModifier mod) {
+  if (Platform.isWindows) {
+    switch (mod) {
+      case HotKeyModifier.meta:
+        return 'Win';
+      case HotKeyModifier.control:
+        return 'Ctrl';
+      case HotKeyModifier.alt:
+        return 'Alt';
+      case HotKeyModifier.shift:
+        return 'Shift';
+      default:
+        return '';
+    }
+  }
+  switch (mod) {
+    case HotKeyModifier.meta:
+      return '⌘ Command';
+    case HotKeyModifier.control:
+      return '⌃ Control';
+    case HotKeyModifier.alt:
+      return '⌥ Option';
+    case HotKeyModifier.shift:
+      return '⇧ Shift';
+    default:
+      return '';
+  }
+}
 
 @RoutePage()
 class SettingsPage extends ConsumerStatefulWidget {
@@ -115,6 +146,24 @@ class _SettingsPageState extends ConsumerState<SettingsPage> with WidgetsBinding
                           onChanged: (val) => ref
                               .read(settingsControllerProvider.notifier)
                               .toggleLaunchAtStartup(val),
+                        ),
+                      ),
+                      loading: () => const _LoadingTile(),
+                      error: (_, __) => const SizedBox.shrink(),
+                    ),
+                    const Divider(height: 1, indent: 56),
+                    // Refinement enabled
+                    settings.when(
+                      data: (data) => _SettingTile(
+                        icon: Icons.auto_fix_high,
+                        title: '啟用文字優化',
+                        subtitle:
+                            '轉錄完成後再丟給聊天模型做格式化／錯字修正（在「模型」頁設定 provider 與模型）',
+                        trailing: Switch(
+                          value: data.refinementEnabled,
+                          onChanged: (val) => ref
+                              .read(settingsControllerProvider.notifier)
+                              .toggleRefinementEnabled(val),
                         ),
                       ),
                       loading: () => const _LoadingTile(),
@@ -283,19 +332,21 @@ class _SettingsPageState extends ConsumerState<SettingsPage> with WidgetsBinding
                 const SizedBox(height: 12),
                 _SettingsCard(
                   children: [
-                    settings.when(
-                      data: (data) => _PermissionTile(
-                        icon: Icons.accessibility_new,
-                        title: '輔助使用權限',
-                        subtitle: '自動貼上功能需要此權限以模擬鍵盤動作',
-                        isAuthorized: data.isAccessibilityAuthorized,
-                        onCheck: () => const MethodChannel('com.zerotype.app/permission')
-                            .invokeMethod('openAccessibilitySettings'),
+                    if (!Platform.isWindows) ...[
+                      settings.when(
+                        data: (data) => _PermissionTile(
+                          icon: Icons.accessibility_new,
+                          title: '輔助使用權限',
+                          subtitle: '自動貼上功能需要此權限以模擬鍵盤動作',
+                          isAuthorized: data.isAccessibilityAuthorized,
+                          onCheck: () => const MethodChannel('com.zerotype.app/permission')
+                              .invokeMethod('openAccessibilitySettings'),
+                        ),
+                        loading: () => const _LoadingTile(),
+                        error: (_, __) => const SizedBox.shrink(),
                       ),
-                      loading: () => const _LoadingTile(),
-                      error: (_, __) => const SizedBox.shrink(),
-                    ),
-                    const Divider(height: 1, indent: 56),
+                      const Divider(height: 1, indent: 56),
+                    ],
                     settings.when(
                       data: (data) => _PermissionTile(
                         icon: Icons.mic,
@@ -334,12 +385,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> with WidgetsBinding
     
     if (hotkey.modifiers != null) {
       for (final mod in hotkey.modifiers!) {
-        String label = '';
-        if (mod == HotKeyModifier.meta) label = '⌘ Command';
-        if (mod == HotKeyModifier.shift) label = '⇧ Shift';
-        if (mod == HotKeyModifier.alt) label = '⌥ Option';
-        if (mod == HotKeyModifier.control) label = '⌃ Control';
-        
+        final label = _modifierLabel(mod);
         if (label.isNotEmpty) {
           if (widgets.isNotEmpty) widgets.add(const Padding(padding: EdgeInsets.symmetric(horizontal: 4), child: Text('+')));
           widgets.add(_KeyBadge(label: label));
@@ -422,13 +468,17 @@ class _HotkeyRecorderOverlayState extends State<_HotkeyRecorderOverlay> {
 
     for (final key in sortedKeys) {
       if (_isMeta(key)) {
-        if (!parts.contains('⌘ Command')) parts.add('⌘ Command');
+        final label = _modifierLabel(HotKeyModifier.meta);
+        if (!parts.contains(label)) parts.add(label);
       } else if (_isControl(key)) {
-        if (!parts.contains('⌃ Control')) parts.add('⌃ Control');
+        final label = _modifierLabel(HotKeyModifier.control);
+        if (!parts.contains(label)) parts.add(label);
       } else if (_isAlt(key)) {
-        if (!parts.contains('⌥ Option')) parts.add('⌥ Option');
+        final label = _modifierLabel(HotKeyModifier.alt);
+        if (!parts.contains(label)) parts.add(label);
       } else if (_isShift(key)) {
-        if (!parts.contains('⇧ Shift')) parts.add('⇧ Shift');
+        final label = _modifierLabel(HotKeyModifier.shift);
+        if (!parts.contains(label)) parts.add(label);
       } else if (key == PhysicalKeyboardKey.space) {
         parts.add('Space');
       } else {

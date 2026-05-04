@@ -6,6 +6,7 @@
 .claude/
 .idea/
 *.dmg
+installer/Output/
 
 ### Dart ###
 # See https://www.dartlang.org/guides/libraries/private-files

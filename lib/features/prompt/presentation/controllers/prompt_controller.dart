@@ -33,3 +33,26 @@ class SpeechPromptController extends _$SpeechPromptController {
   }
 }
 
+@riverpod
+class RefinementPromptController extends _$RefinementPromptController {
+  @override
+  Future<String> build() async {
+    final repo = ref.watch(promptRepositoryProvider);
+    return repo.getRefinementPrompt();
+  }
+
+  Future<String> save(String prompt) async {
+    final repo = ref.read(promptRepositoryProvider);
+    final newVal = await repo.saveRefinementPrompt(prompt);
+    ref.invalidateSelf();
+    return newVal;
+  }
+
+  Future<String> resetToDefault() async {
+    final repo = ref.read(promptRepositoryProvider);
+    final newVal = await repo.resetRefinementPrompt();
+    ref.invalidateSelf();
+    return newVal;
+  }
+}
+
